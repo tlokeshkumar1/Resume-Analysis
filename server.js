@@ -79,23 +79,6 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 } 
 });
 
-async function extractTextFromFile(filePath, fileType) {
-    try {
-        if (fileType === 'application/pdf') {
-            const dataBuffer = fs.readFileSync(filePath);
-            const data = await pdfParse(dataBuffer);
-            return data.text;
-        } else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-            const result = await mammoth.extractRawText({ path: filePath });
-            return result.value;
-        }
-        return null;
-    } catch (error) {
-        console.error('Error extracting text:', error);
-        throw error;
-    }
-}
-
 app.post("/auth/login", (req, res) => {
     const { username, password } = req.body;
     if (username === "naval.ravikant" && password === "05111974") {
